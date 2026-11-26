@@ -143,6 +143,56 @@ document.querySelectorAll('#menu button[data-aba]').forEach((btn) => {
   if (ic) btn.innerHTML = `${ic}<span>${btn.textContent}</span>`;
 });
 
+// --- TELA DE ABERTURA (0% A 100% -> LOGO -> DIGITAÇÃO) ---
+(function executarAbertura() {
+  const splash = $('splash');
+  if (!splash) return;
+
+  // Se já estiver logado e recarregou a página, oculta a abertura direto
+  if (codigoSessao && usuario()) {
+    splash.remove();
+    return;
+  }
+
+  let pct = 0;
+  const intervalo = setInterval(() => {
+    pct += Math.floor(Math.random() * 4) + 2; // Incremento suave de 2% a 5%
+    if (pct >= 100) {
+      pct = 100;
+      clearInterval(intervalo);
+      $('splashNum').textContent = '100';
+      $('splashBarra').style.width = '100%';
+
+      // Ao chegar em 100%, revela a logo e inicia a digitação
+      setTimeout(() => {
+        $('splashLoader').classList.add('oculto');
+        $('splashMarca').classList.remove('oculto');
+        digitarNomeEmpresa();
+      }, 300);
+      return;
+    }
+    $('splashNum').textContent = pct;
+    $('splashBarra').style.width = pct + '%';
+  }, 30);
+
+  function digitarNomeEmpresa() {
+    const nome = 'SERRA AZUL';
+    let idx = 0;
+    const timerDig = setInterval(() => {
+      idx++;
+      $('splashNome').textContent = nome.slice(0, idx);
+      if (idx >= nome.length) {
+        clearInterval(timerDig);
+        // Pausa breve após digitar tudo e entra no sistema
+        setTimeout(() => {
+          splash.classList.add('saindo');
+          setTimeout(() => splash.remove(), 650);
+        }, 1100);
+      }
+    }, 115);
+  }
+})();
+
 // --- AUTENTICAÇÃO ---
 $('creds').innerHTML = USUARIOS_INICIAIS.map((u) =>
   `<button type="button" class="cred" data-c="${u.codigo}"><b>${u.codigo}</b><span>${u.nome} - ${u.cargo}</span><small>Senha</small><span>${u.senha}</span></button>`
@@ -251,7 +301,6 @@ function renderInicio() {
   $('iniSaudacao').textContent = `Olá, ${u.nome.split(' ')[0]}`;
   $('iniSubtitulo').textContent = `Turno ativo sob o código ${u.codigo}. Selecione uma operação ou resolva as pendências abaixo.`;
 
-  // Renderiza atalhos conforme cargo
   $('iniAtalhos').innerHTML = ATALHOS_CATALOGO
     .filter((a) => abasPermitidas.includes(a.aba))
     .map((a) => `
@@ -261,7 +310,6 @@ function renderInicio() {
       </button>
     `).join('');
 
-  // Monta Central de Pendências reais do banco
   const pendencias = [];
 
   // 1. Produtos sem endereço físico
@@ -1052,46 +1100,5 @@ window.onstorage = (e) => {
     toast('Sessão encerrada: acesso removido', 'erro');
   }
 };
-
-// --- ANIMAÇÃO DE DIGITAÇÃO DA MARCA ---
-(function iniciarDigitacao() {
-  const frases = ['CERÂMICA PRO', 'SERRA AZUL'];
-  let idxFrase = 0;
-  let idxLetra = 0;
-  let apagando = false;
-
-  function animar() {
-    const elLogin = $('textoDigitado');
-    const elHome = $('textoDigitadoHome');
-    const atual = frases[idxFrase];
-
-    if (!apagando) {
-      idxLetra++;
-      const trecho = atual.slice(0, idxLetra);
-      if (elLogin) elLogin.textContent = trecho;
-      if (elHome) elHome.textContent = trecho;
-
-      if (idxLetra === atual.length) {
-        apagando = true;
-        return setTimeout(animar, 2200);
-      }
-      return setTimeout(animar, 110);
-    } else {
-      idxLetra--;
-      const trecho = atual.slice(0, idxLetra);
-      if (elLogin) elLogin.textContent = trecho;
-      if (elHome) elHome.textContent = trecho;
-
-      if (idxLetra === 0) {
-        apagando = false;
-        idxFrase = (idxFrase + 1) % frases.length;
-        return setTimeout(animar, 400);
-      }
-      return setTimeout(animar, 60);
-    }
-  }
-
-  animar();
-})();
 
 mostrarApp();
