@@ -4,17 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Serra Azul — Operação de Estoque</title>
+    <title>Jacaré Automotivo — Operação de Estoque</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- TELA DE ABERTURA (0% A 100% -> LOGO -> DIGITAÇÃO) -->
+    <!-- TELA DE ABERTURA (FUNDO BRANCO -> BLOOM DEVAGAR -> 0% A 100% -> LOGO -> DUPLA DIGITAÇÃO) -->
     <div id="splash" aria-live="polite">
+        <div class="splash-bloom" id="splashBloom"></div>
+
         <div class="splash-conteudo">
-            <!-- ETAPA 1: CONTADOR 0% A 100% -->
-            <div class="splash-loader" id="splashLoader">
+            <!-- ETAPA 2: CONTADOR 0% A 100% -->
+            <div class="splash-loader oculto" id="splashLoader">
                 <div class="splash-pct"><span id="splashNum">0</span>%</div>
                 <div class="splash-barra">
                     <div class="splash-progresso" id="splashBarra"></div>
@@ -22,7 +24,7 @@
                 <small>CARREGANDO SISTEMA OPERACIONAL</small>
             </div>
 
-            <!-- ETAPA 2 E 3: LOGO + NOME DIGITADO SUAVEMENTE -->
+            <!-- ETAPA 3: LOGO + NOME E SUBTÍTULO DIGITADOS -->
             <div class="splash-marca oculto" id="splashMarca">
                 <svg class="splash-logo" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="3" y="13" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="2.2" />
@@ -33,9 +35,11 @@
                     <circle cx="24" cy="11" r="2" fill="currentColor" />
                 </svg>
                 <div class="splash-nome-wrap">
-                    <span id="splashNome"></span><span class="splash-cursor">|</span>
+                    <span id="splashNome"></span><span class="splash-cursor" id="cursorNome">|</span>
                 </div>
-                <small class="splash-sub">CERÂMICAS &amp; REVESTIMENTOS</small>
+                <div class="splash-sub-wrap">
+                    <span id="splashSub"></span><span class="splash-cursor oculto" id="cursorSub">|</span>
+                </div>
             </div>
         </div>
     </div>
@@ -44,7 +48,7 @@
     <div id="login">
         <form class="card login-card" id="formLogin" novalidate autocomplete="off">
             <div class="login-topo">
-                <span class="tag-sistema">SERRA AZUL • OPERAÇÃO DE ESTOQUE</span>
+                <span class="tag-sistema">JACARÉ AUTOMOTIVO • OPERAÇÃO DE ESTOQUE</span>
                 <h2>Acesso Restrito</h2>
                 <p class="sub">Informe seu código único e sua senha pessoal para iniciar o turno.</p>
             </div>
@@ -68,7 +72,7 @@
     <div id="app" class="oculto">
         <header class="topo-fixo">
             <!-- ÁREA DA LOGO (Canto Superior Esquerdo) -->
-            <div class="marca" aria-label="Serra Azul - Gestão de Estoque">
+            <div class="marca" aria-label="Jacaré Automotivo - Gestão de Estoque">
                 <svg class="logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="3" y="13" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="2.2" />
                     <path
@@ -78,8 +82,8 @@
                     <circle cx="24" cy="11" r="2" fill="currentColor" />
                 </svg>
                 <div class="logo-texto">
-                    <b>SERRA<span>AZUL</span></b>
-                    <small>ESTOQUE &amp; LOGÍSTICA</small>
+                    <b>JACARÉ<span>AUTOMOTIVO</span></b>
+                    <small>PEÇAS &amp; ESTOQUE</small>
                 </div>
             </div>
 
@@ -89,7 +93,6 @@
                 <button data-aba="consulta">Consulta</button>
                 <button data-aba="movimento">Movimentar</button>
                 <button data-aba="inventario">Inventário</button>
-                <button data-aba="conferencia">Conferência Matriz</button>
                 <button data-aba="auditoria">Log &amp; Exportação</button>
                 <button data-aba="usuarios">Equipe</button>
             </nav>
@@ -116,7 +119,7 @@
                         <p class="sub" id="iniSubtitulo">Central operacional de estoque e endereçamento.</p>
                     </div>
                     <form class="busca-rapida-form" id="formBuscaInicio">
-                        <input id="iniBusca" type="search" placeholder="Consulta rápida por SKU, nome ou endereço...">
+                        <input id="iniBusca" type="search" placeholder="Consulta rápida por SKU, peça ou endereço...">
                         <button class="btn" type="submit">Consultar Estoque</button>
                     </form>
                 </div>
@@ -141,7 +144,7 @@
                             <h3>Últimas Atividades Realizadas</h3>
                             <button class="link-inline" id="btnVerLogCompleto" type="button">Ver log completo</button>
                         </div>
-                        <p class="sub-compacta">Registros recentes de movimentação e conferência.</p>
+                        <p class="sub-compacta">Registros recentes de movimentação e inventário.</p>
                         <div class="lista-atividades" id="iniAtividades"></div>
                     </div>
                 </div>
@@ -151,12 +154,11 @@
            ABA 1: CONSULTA DE PRODUTOS E ENDEREÇAMENTO
            =============================================================== -->
             <section id="aba-consulta" class="oculto">
-                <h2>Consulta de Produtos e Endereços</h2>
+                <h2>Consulta de Peças e Endereços</h2>
                 <p class="sub">Localização física (galpão/rua/palete) e disponibilidade por unidade.</p>
 
                 <div class="filtros">
-                    <input id="busca" type="search"
-                        placeholder="Filtrar por código SKU, nome do produto ou endereço...">
+                    <input id="busca" type="search" placeholder="Filtrar por código SKU, nome da peça ou endereço...">
                     <div class="chips" id="chips"></div>
                 </div>
                 <div class="grade" id="grade"></div>
@@ -167,7 +169,7 @@
            =============================================================== -->
             <section id="aba-movimento" class="oculto">
                 <h2>Movimentação de Estoque</h2>
-                <p class="sub">Registro operacional de entradas, saídas, quebras e transferências entre unidades.</p>
+                <p class="sub">Registro operacional de entradas, saídas, avarias e transferências entre unidades.</p>
 
                 <div class="grid-movimento">
                     <form class="card form" id="formMov" novalidate>
@@ -223,86 +225,7 @@
             </section>
 
             <!-- ===============================================================
-           ABA 4: CONFERÊNCIA DE ESTOQUE DA MATRIZ
-           =============================================================== -->
-            <section id="aba-conferencia" class="oculto">
-                <div class="cabecalho-aba">
-                    <div>
-                        <h2>Conferência de Estoque — Matriz</h2>
-                        <p class="sub">Verificação física independente da Matriz. Não altera o saldo oficial do sistema.
-                        </p>
-                    </div>
-                    <div class="acao">
-                        <button class="btn sec" id="btnConfRascunho">Salvar Progresso</button>
-                        <button class="btn" id="btnConfFinalizar">Finalizar Conferência</button>
-                    </div>
-                </div>
-
-                <!-- RESUMO OPERACIONAL DA CONFERÊNCIA -->
-                <div class="barra-status-op" id="barraResumoMatriz">
-                    <span>Conferidos: <b id="cmConf">0</b></span>
-                    <span>Pendentes: <b id="cmPend">0</b></span>
-                    <span class="txt-ok">Corretos: <b id="cmOk">0</b></span>
-                    <span class="txt-alerta">Divergentes: <b id="cmDiv">0</b></span>
-                    <span class="txt-erro">Faltantes: <b id="cmFalt">0</b> un.</span>
-                    <span class="txt-alerta">Excedentes: <b id="cmExc">0</b> un.</span>
-                </div>
-
-                <!-- PESQUISA, FILTROS E EXPORTAÇÃO -->
-                <div class="barra-conf">
-                    <input id="cmBusca" type="search" placeholder="Pesquisar por SKU ou nome do produto...">
-                    <select id="cmFiltro">
-                        <option value="todos">Todos os produtos</option>
-                        <option value="pendentes">Pendentes de contagem</option>
-                        <option value="ok">Sem divergência (Correto)</option>
-                        <option value="faltante">Faltantes (Físico menor)</option>
-                        <option value="excedente">Excedentes (Físico maior)</option>
-                    </select>
-                    <button class="btn sec" id="btnConfCSV">Exportar CSV (Excel)</button>
-                    <button class="btn sec" id="btnConfPDF">Imprimir / PDF</button>
-                </div>
-
-                <!-- TABELA DE CONFERÊNCIA -->
-                <div class="card tabela-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Código (SKU)</th>
-                                <th>Produto</th>
-                                <th>Unid.</th>
-                                <th>Estoque Sistema (Matriz)</th>
-                                <th>Estoque Físico</th>
-                                <th>Diferença</th>
-                                <th>Situação</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cmCorpo"></tbody>
-                    </table>
-                </div>
-
-                <!-- HISTÓRICO DE CONFERÊNCIAS SALVAS -->
-                <h3>Histórico de Conferências da Matriz</h3>
-                <div class="card tabela-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Data / Hora</th>
-                                <th>Responsável</th>
-                                <th>Conferidos</th>
-                                <th>Sem Div.</th>
-                                <th>Com Div.</th>
-                                <th>Faltantes / Excedentes</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cmHistCorpo"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- ===============================================================
-           ABA 5: AUDITORIA E INTEGRAÇÃO POWER BI
+           ABA 4: AUDITORIA E INTEGRAÇÃO POWER BI
            =============================================================== -->
             <section id="aba-auditoria" class="oculto">
                 <div class="cabecalho-aba">
@@ -335,7 +258,7 @@
             </section>
 
             <!-- ===============================================================
-           ABA 6: GESTÃO DE COLABORADORES
+           ABA 5: GESTÃO DE COLABORADORES
            =============================================================== -->
             <section id="aba-usuarios" class="oculto">
                 <h2>Gestão de Colaboradores e Acessos</h2>
@@ -372,7 +295,7 @@
                 </div>
 
                 <h3>Manutenção da Base</h3>
-                <button class="btn sec" id="btnReset">Restaurar Produtos e Saldos Padrão</button>
+                <button class="btn sec" id="btnReset">Restaurar Peças e Saldos Padrão</button>
                 <small>Preserva o histórico de auditoria e os usuários cadastrados.</small>
             </section>
         </main>
