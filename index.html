@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Operação de Estoque - Cerâmicas e Revestimentos</title>
+  <title>Operação de Estoque - Cerâmica Pro / Serra Azul</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -14,6 +14,9 @@
   <div id="login">
     <form class="card login-card" id="formLogin" novalidate autocomplete="off">
       <div class="login-topo">
+        <div class="banner-digitacao">
+          <span id="textoDigitado"></span><span class="cursor-digitacao">|</span>
+        </div>
         <span class="tag-sistema">OPERAÇÃO DE ESTOQUE</span>
         <h2>Acesso Restrito</h2>
         <p class="sub">Informe seu código único e sua senha pessoal para iniciar o turno.</p>
@@ -79,7 +82,12 @@
       <section id="aba-inicio">
         <div class="card hero-op">
           <div>
-            <span class="badge-unidade" id="iniUnidade">Unidade</span>
+            <div class="banner-digitacao banner-compacto">
+              <span id="textoDigitadoHome"></span><span class="cursor-digitacao">|</span>
+            </div>
+            <div>
+              <span class="badge-unidade" id="iniUnidade">Unidade</span>
+            </div>
             <h2 id="iniSaudacao">Olá, colaborador</h2>
             <p class="sub" id="iniSubtitulo">Central operacional de estoque e endereçamento.</p>
           </div>
