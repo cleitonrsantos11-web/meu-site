@@ -218,17 +218,19 @@ input[readonly] {
 }
 
 /* =====================================================================
-     3. TELA DE ABERTURA (SPLASH 0% A 100% -> LOGO -> DIGITAÇÃO)
+     3. TELA DE ABERTURA (FUNDO BRANCO -> BLOOM DEVAGAR -> 0% A 100% -> LOGO)
      ===================================================================== */
 #splash {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: #0f172a;
+    background: #ffffff;
     color: #f8fafc;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 24px;
+    overflow: hidden;
     transition: opacity .6s ease, visibility .6s ease;
 }
 
@@ -238,22 +240,55 @@ input[readonly] {
     pointer-events: none;
 }
 
+.splash-bloom {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #0f172a;
+    transform: scale(0);
+    pointer-events: none;
+    animation: bloomExpandir 2.2s cubic-bezier(0.25, 1, 0.5, 1) 0.25s forwards;
+}
+
+@keyframes bloomExpandir {
+    0% {
+        transform: scale(0);
+    }
+
+    20% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(40);
+    }
+}
+
 .splash-conteudo {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     width: 100%;
-    max-width: 340px;
+    max-width: 720px;
 }
 
 .splash-loader {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    transition: opacity .35s ease;
+    gap: 14px;
+    width: 100%;
+    max-width: 340px;
+    animation: surgirSuave .45s ease forwards;
 }
 
 .splash-pct {
-    font-size: 44px;
+    font-size: 52px;
     font-weight: 800;
     letter-spacing: -.02em;
     font-variant-numeric: tabular-nums;
@@ -278,45 +313,49 @@ input[readonly] {
 
 .splash-loader small {
     color: #94a3b8;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: .12em;
+    letter-spacing: .14em;
 }
 
 .splash-marca {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
-    animation: surgirSuave .6s ease forwards;
+    justify-content: center;
+    gap: 12px;
+    animation: zoomMarca .7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .splash-logo {
-    width: 68px;
-    height: 68px;
+    width: 88px;
+    height: 88px;
     color: #38bdf8;
+    margin-bottom: 6px;
 }
 
 .splash-nome-wrap {
-    min-height: 38px;
-    font-size: 28px;
+    min-height: 54px;
+    font-size: clamp(30px, 5.5vw, 46px);
     font-weight: 800;
     letter-spacing: .14em;
+    line-height: 1.1;
     color: #ffffff;
+}
+
+.splash-sub-wrap {
+    min-height: 26px;
+    font-size: clamp(13px, 2.5vw, 17px);
+    font-weight: 700;
+    letter-spacing: .2em;
+    color: #94a3b8;
 }
 
 .splash-cursor {
     margin-left: 3px;
     font-weight: 300;
     color: #38bdf8;
-    animation: piscarCursor .7s step-end infinite;
-}
-
-.splash-sub {
-    color: #94a3b8;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .16em;
+    animation: piscarCursor .65s step-end infinite;
 }
 
 @keyframes surgirSuave {
@@ -328,6 +367,18 @@ input[readonly] {
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes zoomMarca {
+    from {
+        opacity: 0;
+        transform: scale(0.82);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.04);
     }
 }
 
@@ -883,18 +934,6 @@ main {
     font-size: 14px;
 }
 
-.txt-ok b {
-    color: var(--ok);
-}
-
-.txt-erro b {
-    color: var(--erro);
-}
-
-.txt-alerta b {
-    color: var(--alerta);
-}
-
 .lista {
     display: grid;
     gap: 10px;
@@ -951,7 +990,7 @@ main {
 }
 
 /* =====================================================================
-     8. TABELAS, STATUS, CONFERÊNCIA MATRIZ E TOAST
+     8. TABELAS, STATUS E TOAST
      ===================================================================== */
 .cabecalho-aba {
     display: flex;
@@ -1021,60 +1060,6 @@ th {
     width: 120px;
 }
 
-.barra-conf {
-    display: grid;
-    grid-template-columns: 2fr 1.2fr auto auto;
-    gap: 10px;
-    margin-bottom: 14px;
-}
-
-tr.conf-ok {
-    background: var(--ok-bg);
-}
-
-tr.conf-faltante {
-    background: var(--erro-bg);
-}
-
-tr.conf-excedente {
-    background: var(--alerta-bg);
-}
-
-.input-fisico {
-    width: 105px;
-    padding: 6px 10px;
-    font-weight: 700;
-    text-align: right;
-}
-
-.badge-conf {
-    display: inline-block;
-    padding: 3px 9px;
-    border-radius: 99px;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.badge-conf.ok {
-    background: var(--ok);
-    color: #fff;
-}
-
-.badge-conf.faltante {
-    background: var(--erro);
-    color: #fff;
-}
-
-.badge-conf.excedente {
-    background: var(--alerta);
-    color: #fff;
-}
-
-.badge-conf.pendente {
-    background: var(--borda);
-    color: var(--suave);
-}
-
 #toast {
     position: fixed;
     left: 50%;
@@ -1105,16 +1090,12 @@ tr.conf-excedente {
 }
 
 /* =====================================================================
-     9. RESPONSIVO E IMPRESSÃO (PDF)
+     9. RESPONSIVO
      ===================================================================== */
 @media (max-width: 960px) {
 
     .grid-duas-colunas,
     .grid-movimento {
-        grid-template-columns: 1fr;
-    }
-
-    .barra-conf {
         grid-template-columns: 1fr;
     }
 }
@@ -1167,38 +1148,5 @@ tr.conf-excedente {
 
     .mot.off {
         display: none;
-    }
-}
-
-@media print {
-    body {
-        background: #fff;
-        color: #000;
-    }
-
-    #splash,
-    .topo-fixo,
-    .barra-conf,
-    .cabecalho-aba .acao,
-    h3,
-    #cmHistCorpo,
-    #toast {
-        display: none !important;
-    }
-
-    main {
-        padding: 0;
-        max-width: 100%;
-    }
-
-    .card {
-        box-shadow: none;
-        border: 1px solid #ccc;
-    }
-
-    .input-fisico {
-        border: 0;
-        background: transparent;
-        padding: 0;
     }
 }
