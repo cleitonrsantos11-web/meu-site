@@ -1053,4 +1053,45 @@ window.onstorage = (e) => {
   }
 };
 
+// --- ANIMAÇÃO DE DIGITAÇÃO DA MARCA ---
+(function iniciarDigitacao() {
+  const frases = ['CERÂMICA PRO', 'SERRA AZUL'];
+  let idxFrase = 0;
+  let idxLetra = 0;
+  let apagando = false;
+
+  function animar() {
+    const elLogin = $('textoDigitado');
+    const elHome = $('textoDigitadoHome');
+    const atual = frases[idxFrase];
+
+    if (!apagando) {
+      idxLetra++;
+      const trecho = atual.slice(0, idxLetra);
+      if (elLogin) elLogin.textContent = trecho;
+      if (elHome) elHome.textContent = trecho;
+
+      if (idxLetra === atual.length) {
+        apagando = true;
+        return setTimeout(animar, 2200);
+      }
+      return setTimeout(animar, 110);
+    } else {
+      idxLetra--;
+      const trecho = atual.slice(0, idxLetra);
+      if (elLogin) elLogin.textContent = trecho;
+      if (elHome) elHome.textContent = trecho;
+
+      if (idxLetra === 0) {
+        apagando = false;
+        idxFrase = (idxFrase + 1) % frases.length;
+        return setTimeout(animar, 400);
+      }
+      return setTimeout(animar, 60);
+    }
+  }
+
+  animar();
+})();
+
 mostrarApp();
