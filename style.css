@@ -80,7 +80,7 @@ main h3 { margin: 26px 0 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
+  * { transition: none !important; animation: none !important; }
 }
 
 .card {
@@ -152,7 +152,118 @@ input[readonly] {
 }
 
 /* =====================================================================
-   3. LOGIN, ANIMAÇÃO DE DIGITAÇÃO E ALERTAS
+   3. TELA DE ABERTURA (SPLASH 0% A 100% -> LOGO -> DIGITAÇÃO)
+   ===================================================================== */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0f172a;
+  color: #f8fafc;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  transition: opacity .6s ease, visibility .6s ease;
+}
+
+#splash.saindo {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-conteudo {
+  text-align: center;
+  width: 100%;
+  max-width: 340px;
+}
+
+.splash-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: opacity .35s ease;
+}
+
+.splash-pct {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+}
+
+.splash-barra {
+  width: 100%;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.splash-progresso {
+  width: 0%;
+  height: 100%;
+  background: #38bdf8;
+  border-radius: 99px;
+  transition: width .06s linear;
+}
+
+.splash-loader small {
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.splash-marca {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: surgirSuave .6s ease forwards;
+}
+
+.splash-logo {
+  width: 68px;
+  height: 68px;
+  color: #38bdf8;
+}
+
+.splash-nome-wrap {
+  min-height: 38px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  color: #ffffff;
+}
+
+.splash-cursor {
+  margin-left: 3px;
+  font-weight: 300;
+  color: #38bdf8;
+  animation: piscarCursor .7s step-end infinite;
+}
+
+.splash-sub {
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+@keyframes surgirSuave {
+  from { opacity: 0; transform: translateY(10px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes piscarCursor {
+  50% { opacity: 0; }
+}
+
+/* =====================================================================
+   4. LOGIN E ALERTAS
    ===================================================================== */
 #login {
   min-height: 100vh;
@@ -163,40 +274,6 @@ input[readonly] {
 
 .login-card { width: 100%; max-width: 420px; }
 .login-topo { margin-bottom: 14px; }
-
-.banner-digitacao {
-  display: inline-flex;
-  align-items: center;
-  min-height: 36px;
-  padding: 6px 14px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  background: var(--fundo);
-  border: 1px solid var(--borda);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: .08em;
-  color: var(--primaria);
-}
-
-.banner-compacto {
-  min-height: 30px;
-  padding: 4px 10px;
-  margin-bottom: 8px;
-  font-size: 12px;
-}
-
-.cursor-digitacao {
-  margin-left: 2px;
-  color: var(--accent);
-  font-weight: 400;
-  animation: piscarCursor .75s step-end infinite;
-}
-
-@keyframes piscarCursor {
-  50% { opacity: 0; }
-}
 
 .tag-sistema {
   display: block;
@@ -248,7 +325,7 @@ input[readonly] {
 .card .alerta-erro { margin: 0 0 12px; }
 
 /* =====================================================================
-   4. NAVEGAÇÃO SUPERIOR (LOGO À ESQUERDA)
+   5. NAVEGAÇÃO SUPERIOR (LOGO À ESQUERDA)
    ===================================================================== */
 #app {
   min-height: 100vh;
@@ -300,7 +377,7 @@ input[readonly] {
 .logo-texto b span {
   font-weight: 500;
   color: var(--suave);
-  margin-left: 2px;
+  margin-left: 3px;
 }
 
 .logo-texto small {
@@ -377,7 +454,7 @@ main {
 }
 
 /* =====================================================================
-   5. PÁGINA INICIAL OPERACIONAL
+   6. PÁGINA INICIAL OPERACIONAL
    ===================================================================== */
 .hero-op {
   display: flex;
@@ -520,7 +597,7 @@ main {
 .atividade-item b { display: block; font-size: 13px; }
 
 /* =====================================================================
-   6. CONSULTA, MOVIMENTAÇÃO E INVENTÁRIO
+   7. CONSULTA, MOVIMENTAÇÃO E INVENTÁRIO
    ===================================================================== */
 .filtros { display: grid; gap: 12px; margin-bottom: 18px; }
 #busca { font-size: 15px; padding: 12px 14px; }
@@ -663,7 +740,7 @@ main {
 }
 
 /* =====================================================================
-   7. TABELAS, STATUS, CONFERÊNCIA MATRIZ E TOAST
+   8. TABELAS, STATUS, CONFERÊNCIA MATRIZ E TOAST
    ===================================================================== */
 .cabecalho-aba {
   display: flex;
@@ -756,7 +833,7 @@ tr.conf-excedente { background: var(--alerta-bg); }
 #toast.erro { background: var(--erro); color: #fff; }
 
 /* =====================================================================
-   8. RESPONSIVO E IMPRESSÃO (PDF)
+   9. RESPONSIVO E IMPRESSÃO (PDF)
    ===================================================================== */
 @media (max-width: 960px) {
   .grid-duas-colunas, .grid-movimento { grid-template-columns: 1fr; }
@@ -791,7 +868,7 @@ tr.conf-excedente { background: var(--alerta-bg); }
 
 @media print {
   body { background: #fff; color: #000; }
-  .topo-fixo, .barra-conf, .cabecalho-aba .acao, h3, #cmHistCorpo, #toast { display: none !important; }
+  #splash, .topo-fixo, .barra-conf, .cabecalho-aba .acao, h3, #cmHistCorpo, #toast { display: none !important; }
   main { padding: 0; max-width: 100%; }
   .card { box-shadow: none; border: 1px solid #ccc; }
   .input-fisico { border: 0; background: transparent; padding: 0; }
