@@ -2,374 +2,384 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Serra Azul — Operação de Estoque</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Serra Azul — Operação de Estoque</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- TELA DE ABERTURA (0% A 100% -> LOGO -> DIGITAÇÃO) -->
-  <div id="splash" aria-live="polite">
-    <div class="splash-conteudo">
-      <!-- ETAPA 1: CONTADOR 0% A 100% -->
-      <div class="splash-loader" id="splashLoader">
-        <div class="splash-pct"><span id="splashNum">0</span>%</div>
-        <div class="splash-barra">
-          <div class="splash-progresso" id="splashBarra"></div>
-        </div>
-        <small>CARREGANDO SISTEMA OPERACIONAL</small>
-      </div>
+    <!-- TELA DE ABERTURA (0% A 100% -> LOGO -> DIGITAÇÃO) -->
+    <div id="splash" aria-live="polite">
+        <div class="splash-conteudo">
+            <!-- ETAPA 1: CONTADOR 0% A 100% -->
+            <div class="splash-loader" id="splashLoader">
+                <div class="splash-pct"><span id="splashNum">0</span>%</div>
+                <div class="splash-barra">
+                    <div class="splash-progresso" id="splashBarra"></div>
+                </div>
+                <small>CARREGANDO SISTEMA OPERACIONAL</small>
+            </div>
 
-      <!-- ETAPA 2 E 3: LOGO + NOME DIGITADO SUAVEMENTE -->
-      <div class="splash-marca oculto" id="splashMarca">
-        <svg class="splash-logo" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="3" y="13" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="2.2"/>
-          <path d="M13 13V7.5C13 6.11929 14.1193 5 15.5 5H28.5C29.8807 5 31 6.11929 31 7.5V20.5C31 21.8807 29.8807 23 28.5 23H23" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-          <rect x="7" y="17" width="8" height="8" rx="1" fill="currentColor" fill-opacity="0.25"/>
-          <circle cx="24" cy="11" r="2" fill="currentColor"/>
-        </svg>
-        <div class="splash-nome-wrap">
-          <span id="splashNome"></span><span class="splash-cursor">|</span>
+            <!-- ETAPA 2 E 3: LOGO + NOME DIGITADO SUAVEMENTE -->
+            <div class="splash-marca oculto" id="splashMarca">
+                <svg class="splash-logo" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="13" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="2.2" />
+                    <path
+                        d="M13 13V7.5C13 6.11929 14.1193 5 15.5 5H28.5C29.8807 5 31 6.11929 31 7.5V20.5C31 21.8807 29.8807 23 28.5 23H23"
+                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                    <rect x="7" y="17" width="8" height="8" rx="1" fill="currentColor" fill-opacity="0.25" />
+                    <circle cx="24" cy="11" r="2" fill="currentColor" />
+                </svg>
+                <div class="splash-nome-wrap">
+                    <span id="splashNome"></span><span class="splash-cursor">|</span>
+                </div>
+                <small class="splash-sub">CERÂMICAS &amp; REVESTIMENTOS</small>
+            </div>
         </div>
-        <small class="splash-sub">CERÂMICAS &amp; REVESTIMENTOS</small>
-      </div>
     </div>
-  </div>
 
-  <!-- TELA DE LOGIN -->
-  <div id="login">
-    <form class="card login-card" id="formLogin" novalidate autocomplete="off">
-      <div class="login-topo">
-        <span class="tag-sistema">SERRA AZUL • OPERAÇÃO DE ESTOQUE</span>
-        <h2>Acesso Restrito</h2>
-        <p class="sub">Informe seu código único e sua senha pessoal para iniciar o turno.</p>
-      </div>
-      <div id="loginErro" class="alerta-erro oculto" role="alert"></div>
+    <!-- TELA DE LOGIN -->
+    <div id="login">
+        <form class="card login-card" id="formLogin" novalidate autocomplete="off">
+            <div class="login-topo">
+                <span class="tag-sistema">SERRA AZUL • OPERAÇÃO DE ESTOQUE</span>
+                <h2>Acesso Restrito</h2>
+                <p class="sub">Informe seu código único e sua senha pessoal para iniciar o turno.</p>
+            </div>
+            <div id="loginErro" class="alerta-erro oculto" role="alert"></div>
 
-      <label>Código Único de Acesso
-        <input id="lCodigo" placeholder="Ex.: EST-402" autocapitalize="characters">
-      </label>
+            <label>Código Único de Acesso
+                <input id="lCodigo" placeholder="Ex.: EST-402" autocapitalize="characters">
+            </label>
 
-      <label>Senha Pessoal
-        <input id="lSenha" type="password" placeholder="••••••">
-      </label>
+            <label>Senha Pessoal
+                <input id="lSenha" type="password" placeholder="••••••">
+            </label>
 
-      <button class="btn" type="submit">Entrar no Sistema</button>
-      <button class="link" type="button" id="btnCreds">Credenciais de Teste</button>
-      <div id="creds" class="oculto"></div>
-    </form>
-  </div>
+            <button class="btn" type="submit">Entrar no Sistema</button>
+            <button class="link" type="button" id="btnCreds">Credenciais de Teste</button>
+            <div id="creds" class="oculto"></div>
+        </form>
+    </div>
 
-  <!-- SISTEMA PRINCIPAL -->
-  <div id="app" class="oculto">
-    <header class="topo-fixo">
-      <!-- ÁREA DA LOGO (Canto Superior Esquerdo) -->
-      <div class="marca" aria-label="Serra Azul - Gestão de Estoque">
-        <svg class="logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="3" y="13" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="2.2"/>
-          <path d="M13 13V7.5C13 6.11929 14.1193 5 15.5 5H28.5C29.8807 5 31 6.11929 31 7.5V20.5C31 21.8807 29.8807 23 28.5 23H23" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-          <rect x="7" y="17" width="8" height="8" rx="1" fill="currentColor" fill-opacity="0.2"/>
-          <circle cx="24" cy="11" r="2" fill="currentColor"/>
-        </svg>
-        <div class="logo-texto">
-          <b>SERRA<span>AZUL</span></b>
-          <small>ESTOQUE &amp; LOGÍSTICA</small>
-        </div>
-      </div>
+    <!-- SISTEMA PRINCIPAL -->
+    <div id="app" class="oculto">
+        <header class="topo-fixo">
+            <!-- ÁREA DA LOGO (Canto Superior Esquerdo) -->
+            <div class="marca" aria-label="Serra Azul - Gestão de Estoque">
+                <svg class="logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="13" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="2.2" />
+                    <path
+                        d="M13 13V7.5C13 6.11929 14.1193 5 15.5 5H28.5C29.8807 5 31 6.11929 31 7.5V20.5C31 21.8807 29.8807 23 28.5 23H23"
+                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                    <rect x="7" y="17" width="8" height="8" rx="1" fill="currentColor" fill-opacity="0.2" />
+                    <circle cx="24" cy="11" r="2" fill="currentColor" />
+                </svg>
+                <div class="logo-texto">
+                    <b>SERRA<span>AZUL</span></b>
+                    <small>ESTOQUE &amp; LOGÍSTICA</small>
+                </div>
+            </div>
 
-      <!-- MENU HORIZONTAL OPERACIONAL -->
-      <nav id="menu" aria-label="Menu principal">
-        <button data-aba="inicio">Início</button>
-        <button data-aba="consulta">Consulta</button>
-        <button data-aba="movimento">Movimentar</button>
-        <button data-aba="inventario">Inventário</button>
-        <button data-aba="conferencia">Conferência Matriz</button>
-        <button data-aba="auditoria">Log &amp; Exportação</button>
-        <button data-aba="usuarios">Equipe</button>
-      </nav>
+            <!-- MENU HORIZONTAL OPERACIONAL -->
+            <nav id="menu" aria-label="Menu principal">
+                <button data-aba="inicio">Início</button>
+                <button data-aba="consulta">Consulta</button>
+                <button data-aba="movimento">Movimentar</button>
+                <button data-aba="inventario">Inventário</button>
+                <button data-aba="conferencia">Conferência Matriz</button>
+                <button data-aba="auditoria">Log &amp; Exportação</button>
+                <button data-aba="usuarios">Equipe</button>
+            </nav>
 
-      <!-- PERFIL DO COLABORADOR -->
-      <div class="perfil-box">
-        <div class="quem">
-          <div class="avatar" id="hAvatar"></div>
-          <div><b id="hNome"></b><small id="hCargo"></small></div>
-        </div>
-        <button class="btn sec" id="btnSair">Sair</button>
-      </div>
-    </header>
+            <!-- PERFIL DO COLABORADOR -->
+            <div class="perfil-box">
+                <div class="quem">
+                    <div class="avatar" id="hAvatar"></div>
+                    <div><b id="hNome"></b><small id="hCargo"></small></div>
+                </div>
+                <button class="btn sec" id="btnSair">Sair</button>
+            </div>
+        </header>
 
-    <main>
-      <!-- ===============================================================
+        <main>
+            <!-- ===============================================================
            ABA 0: INÍCIO (CENTRAL OPERACIONAL DO TURNO)
            =============================================================== -->
-      <section id="aba-inicio">
-        <div class="card hero-op">
-          <div>
-            <span class="badge-unidade" id="iniUnidade">Unidade</span>
-            <h2 id="iniSaudacao">Olá, colaborador</h2>
-            <p class="sub" id="iniSubtitulo">Central operacional de estoque e endereçamento.</p>
-          </div>
-          <form class="busca-rapida-form" id="formBuscaInicio">
-            <input id="iniBusca" type="search" placeholder="Consulta rápida por SKU, nome ou endereço...">
-            <button class="btn" type="submit">Consultar Estoque</button>
-          </form>
-        </div>
+            <section id="aba-inicio">
+                <div class="card hero-op">
+                    <div>
+                        <span class="badge-unidade" id="iniUnidade">Unidade</span>
+                        <h2 id="iniSaudacao">Olá, colaborador</h2>
+                        <p class="sub" id="iniSubtitulo">Central operacional de estoque e endereçamento.</p>
+                    </div>
+                    <form class="busca-rapida-form" id="formBuscaInicio">
+                        <input id="iniBusca" type="search" placeholder="Consulta rápida por SKU, nome ou endereço...">
+                        <button class="btn" type="submit">Consultar Estoque</button>
+                    </form>
+                </div>
 
-        <h3 class="titulo-bloco">Atalhos Operacionais</h3>
-        <div class="atalhos-grid" id="iniAtalhos"></div>
+                <h3 class="titulo-bloco">Atalhos Operacionais</h3>
+                <div class="atalhos-grid" id="iniAtalhos"></div>
 
-        <div class="grid-duas-colunas" id="gridInicio">
-          <!-- CENTRAL DE PENDÊNCIAS -->
-          <div class="card">
-            <div class="card-header">
-              <h3>Central de Pendências</h3>
-              <span class="contador-pill" id="iniTotalPend">0</span>
-            </div>
-            <p class="sub-compacta">Itens que exigem ação imediata no depósito ou loja.</p>
-            <div class="lista-pendencias" id="iniPendencias"></div>
-          </div>
+                <div class="grid-duas-colunas" id="gridInicio">
+                    <!-- CENTRAL DE PENDÊNCIAS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Central de Pendências</h3>
+                            <span class="contador-pill" id="iniTotalPend">0</span>
+                        </div>
+                        <p class="sub-compacta">Itens que exigem ação imediata no depósito ou loja.</p>
+                        <div class="lista-pendencias" id="iniPendencias"></div>
+                    </div>
 
-          <!-- ÚLTIMAS ATIVIDADES (SOMENTE ENCARREGADO) -->
-          <div class="card oculto" id="cardAtividadesInicio">
-            <div class="card-header">
-              <h3>Últimas Atividades Realizadas</h3>
-              <button class="link-inline" id="btnVerLogCompleto" type="button">Ver log completo</button>
-            </div>
-            <p class="sub-compacta">Registros recentes de movimentação e conferência.</p>
-            <div class="lista-atividades" id="iniAtividades"></div>
-          </div>
-        </div>
-      </section>
+                    <!-- ÚLTIMAS ATIVIDADES (SOMENTE ENCARREGADO) -->
+                    <div class="card oculto" id="cardAtividadesInicio">
+                        <div class="card-header">
+                            <h3>Últimas Atividades Realizadas</h3>
+                            <button class="link-inline" id="btnVerLogCompleto" type="button">Ver log completo</button>
+                        </div>
+                        <p class="sub-compacta">Registros recentes de movimentação e conferência.</p>
+                        <div class="lista-atividades" id="iniAtividades"></div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- ===============================================================
+            <!-- ===============================================================
            ABA 1: CONSULTA DE PRODUTOS E ENDEREÇAMENTO
            =============================================================== -->
-      <section id="aba-consulta" class="oculto">
-        <h2>Consulta de Produtos e Endereços</h2>
-        <p class="sub">Localização física (galpão/rua/palete) e disponibilidade por unidade.</p>
+            <section id="aba-consulta" class="oculto">
+                <h2>Consulta de Produtos e Endereços</h2>
+                <p class="sub">Localização física (galpão/rua/palete) e disponibilidade por unidade.</p>
 
-        <div class="filtros">
-          <input id="busca" type="search" placeholder="Filtrar por código SKU, nome do produto ou endereço...">
-          <div class="chips" id="chips"></div>
-        </div>
-        <div class="grade" id="grade"></div>
-      </section>
+                <div class="filtros">
+                    <input id="busca" type="search"
+                        placeholder="Filtrar por código SKU, nome do produto ou endereço...">
+                    <div class="chips" id="chips"></div>
+                </div>
+                <div class="grade" id="grade"></div>
+            </section>
 
-      <!-- ===============================================================
+            <!-- ===============================================================
            ABA 2: MOVIMENTAÇÃO E TRANSFERÊNCIAS
            =============================================================== -->
-      <section id="aba-movimento" class="oculto">
-        <h2>Movimentação de Estoque</h2>
-        <p class="sub">Registro operacional de entradas, saídas, quebras e transferências entre unidades.</p>
+            <section id="aba-movimento" class="oculto">
+                <h2>Movimentação de Estoque</h2>
+                <p class="sub">Registro operacional de entradas, saídas, quebras e transferências entre unidades.</p>
 
-        <div class="grid-movimento">
-          <form class="card form" id="formMov" novalidate>
-            <h3>Nova Operação</h3>
-            <div class="dupla">
-              <label>Responsável <input id="mResp" readonly></label>
-              <label>Código de Acesso <input id="mCod" readonly></label>
-            </div>
+                <div class="grid-movimento">
+                    <form class="card form" id="formMov" novalidate>
+                        <h3>Nova Operação</h3>
+                        <div class="dupla">
+                            <label>Responsável <input id="mResp" readonly></label>
+                            <label>Código de Acesso <input id="mCod" readonly></label>
+                        </div>
 
-            <label>Tipo de movimentação <select id="mTipo"></select></label>
+                        <label>Tipo de movimentação <select id="mTipo"></select></label>
 
-            <div class="dupla">
-              <label id="lblUn">Unidade <select id="mUnidade"></select></label>
-              <label id="boxDestino">Unidade de destino <select id="mDestino"></select></label>
-            </div>
+                        <div class="dupla">
+                            <label id="lblUn">Unidade <select id="mUnidade"></select></label>
+                            <label id="boxDestino">Unidade de destino <select id="mDestino"></select></label>
+                        </div>
 
-            <label>Produto (SKU) <select id="mSku"></select></label>
-            <label>Quantidade <input id="mQtd" type="number" min="1" inputmode="numeric" placeholder="Ex.: 20"></label>
+                        <label>Produto (SKU) <select id="mSku"></select></label>
+                        <label>Quantidade <input id="mQtd" type="number" min="1" inputmode="numeric"
+                                placeholder="Ex.: 20"></label>
 
-            <small id="mInfo"></small>
-            <button class="btn" type="submit">Registrar Movimentação</button>
-          </form>
+                        <small id="mInfo"></small>
+                        <button class="btn" type="submit">Registrar Movimentação</button>
+                    </form>
 
-          <div>
-            <h3 class="titulo-topo-zero">Transferências Entre Unidades</h3>
-            <p class="sub-compacta">Confirme o recebimento físico quando a mercadoria chegar ao destino.</p>
-            <div class="lista" id="listaTransf"></div>
-          </div>
-        </div>
-      </section>
+                    <div>
+                        <h3 class="titulo-topo-zero">Transferências Entre Unidades</h3>
+                        <p class="sub-compacta">Confirme o recebimento físico quando a mercadoria chegar ao destino.</p>
+                        <div class="lista" id="listaTransf"></div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- ===============================================================
+            <!-- ===============================================================
            ABA 3: INVENTÁRIO FÍSICO E TRATAMENTO DE DIVERGÊNCIAS
            =============================================================== -->
-      <section id="aba-inventario" class="oculto">
-        <div class="cabecalho-aba">
-          <div>
-            <h2>Inventário Físico por Unidade</h2>
-            <p class="sub">Contagem rotativa e tratamento de divergências com aprovação do Encarregado.</p>
-          </div>
-          <div class="campo-un">
-            <label>Unidade conferida <select id="invUnidade"></select></label>
-          </div>
-        </div>
+            <section id="aba-inventario" class="oculto">
+                <div class="cabecalho-aba">
+                    <div>
+                        <h2>Inventário Físico por Unidade</h2>
+                        <p class="sub">Contagem rotativa e tratamento de divergências com aprovação do Encarregado.</p>
+                    </div>
+                    <div class="campo-un">
+                        <label>Unidade conferida <select id="invUnidade"></select></label>
+                    </div>
+                </div>
 
-        <div class="barra-status-op">
-          <span>Itens contados: <b id="kConf">0</b></span>
-          <span>Divergências apontadas: <b id="kDiv">0</b></span>
-        </div>
+                <div class="barra-status-op">
+                    <span>Itens contados: <b id="kConf">0</b></span>
+                    <span>Divergências apontadas: <b id="kDiv">0</b></span>
+                </div>
 
-        <div class="lista" id="listaInv"></div>
-      </section>
+                <div class="lista" id="listaInv"></div>
+            </section>
 
-      <!-- ===============================================================
+            <!-- ===============================================================
            ABA 4: CONFERÊNCIA DE ESTOQUE DA MATRIZ
            =============================================================== -->
-      <section id="aba-conferencia" class="oculto">
-        <div class="cabecalho-aba">
-          <div>
-            <h2>Conferência de Estoque — Matriz</h2>
-            <p class="sub">Verificação física independente da Matriz. Não altera o saldo oficial do sistema.</p>
-          </div>
-          <div class="acao">
-            <button class="btn sec" id="btnConfRascunho">Salvar Progresso</button>
-            <button class="btn" id="btnConfFinalizar">Finalizar Conferência</button>
-          </div>
-        </div>
+            <section id="aba-conferencia" class="oculto">
+                <div class="cabecalho-aba">
+                    <div>
+                        <h2>Conferência de Estoque — Matriz</h2>
+                        <p class="sub">Verificação física independente da Matriz. Não altera o saldo oficial do sistema.
+                        </p>
+                    </div>
+                    <div class="acao">
+                        <button class="btn sec" id="btnConfRascunho">Salvar Progresso</button>
+                        <button class="btn" id="btnConfFinalizar">Finalizar Conferência</button>
+                    </div>
+                </div>
 
-        <!-- RESUMO OPERACIONAL DA CONFERÊNCIA -->
-        <div class="barra-status-op" id="barraResumoMatriz">
-          <span>Conferidos: <b id="cmConf">0</b></span>
-          <span>Pendentes: <b id="cmPend">0</b></span>
-          <span class="txt-ok">Corretos: <b id="cmOk">0</b></span>
-          <span class="txt-alerta">Divergentes: <b id="cmDiv">0</b></span>
-          <span class="txt-erro">Faltantes: <b id="cmFalt">0</b> un.</span>
-          <span class="txt-alerta">Excedentes: <b id="cmExc">0</b> un.</span>
-        </div>
+                <!-- RESUMO OPERACIONAL DA CONFERÊNCIA -->
+                <div class="barra-status-op" id="barraResumoMatriz">
+                    <span>Conferidos: <b id="cmConf">0</b></span>
+                    <span>Pendentes: <b id="cmPend">0</b></span>
+                    <span class="txt-ok">Corretos: <b id="cmOk">0</b></span>
+                    <span class="txt-alerta">Divergentes: <b id="cmDiv">0</b></span>
+                    <span class="txt-erro">Faltantes: <b id="cmFalt">0</b> un.</span>
+                    <span class="txt-alerta">Excedentes: <b id="cmExc">0</b> un.</span>
+                </div>
 
-        <!-- PESQUISA, FILTROS E EXPORTAÇÃO -->
-        <div class="barra-conf">
-          <input id="cmBusca" type="search" placeholder="Pesquisar por SKU ou nome do produto...">
-          <select id="cmFiltro">
-            <option value="todos">Todos os produtos</option>
-            <option value="pendentes">Pendentes de contagem</option>
-            <option value="ok">Sem divergência (Correto)</option>
-            <option value="faltante">Faltantes (Físico menor)</option>
-            <option value="excedente">Excedentes (Físico maior)</option>
-          </select>
-          <button class="btn sec" id="btnConfCSV">Exportar CSV (Excel)</button>
-          <button class="btn sec" id="btnConfPDF">Imprimir / PDF</button>
-        </div>
+                <!-- PESQUISA, FILTROS E EXPORTAÇÃO -->
+                <div class="barra-conf">
+                    <input id="cmBusca" type="search" placeholder="Pesquisar por SKU ou nome do produto...">
+                    <select id="cmFiltro">
+                        <option value="todos">Todos os produtos</option>
+                        <option value="pendentes">Pendentes de contagem</option>
+                        <option value="ok">Sem divergência (Correto)</option>
+                        <option value="faltante">Faltantes (Físico menor)</option>
+                        <option value="excedente">Excedentes (Físico maior)</option>
+                    </select>
+                    <button class="btn sec" id="btnConfCSV">Exportar CSV (Excel)</button>
+                    <button class="btn sec" id="btnConfPDF">Imprimir / PDF</button>
+                </div>
 
-        <!-- TABELA DE CONFERÊNCIA -->
-        <div class="card tabela-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Código (SKU)</th>
-                <th>Produto</th>
-                <th>Unid.</th>
-                <th>Estoque Sistema (Matriz)</th>
-                <th>Estoque Físico</th>
-                <th>Diferença</th>
-                <th>Situação</th>
-              </tr>
-            </thead>
-            <tbody id="cmCorpo"></tbody>
-          </table>
-        </div>
+                <!-- TABELA DE CONFERÊNCIA -->
+                <div class="card tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código (SKU)</th>
+                                <th>Produto</th>
+                                <th>Unid.</th>
+                                <th>Estoque Sistema (Matriz)</th>
+                                <th>Estoque Físico</th>
+                                <th>Diferença</th>
+                                <th>Situação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cmCorpo"></tbody>
+                    </table>
+                </div>
 
-        <!-- HISTÓRICO DE CONFERÊNCIAS SALVAS -->
-        <h3>Histórico de Conferências da Matriz</h3>
-        <div class="card tabela-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Data / Hora</th>
-                <th>Responsável</th>
-                <th>Conferidos</th>
-                <th>Sem Div.</th>
-                <th>Com Div.</th>
-                <th>Faltantes / Excedentes</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="cmHistCorpo"></tbody>
-          </table>
-        </div>
-      </section>
+                <!-- HISTÓRICO DE CONFERÊNCIAS SALVAS -->
+                <h3>Histórico de Conferências da Matriz</h3>
+                <div class="card tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data / Hora</th>
+                                <th>Responsável</th>
+                                <th>Conferidos</th>
+                                <th>Sem Div.</th>
+                                <th>Com Div.</th>
+                                <th>Faltantes / Excedentes</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cmHistCorpo"></tbody>
+                    </table>
+                </div>
+            </section>
 
-      <!-- ===============================================================
+            <!-- ===============================================================
            ABA 5: AUDITORIA E INTEGRAÇÃO POWER BI
            =============================================================== -->
-      <section id="aba-auditoria" class="oculto">
-        <div class="cabecalho-aba">
-          <div>
-            <h2>Log de Auditoria &amp; Integração Power BI</h2>
-            <p class="sub">Histórico imutável de operações para rastreabilidade e alimentação do dashboard Power BI.</p>
-          </div>
-          <button class="btn" id="btnCSV">Exportar CSV para Power BI / Excel</button>
-        </div>
+            <section id="aba-auditoria" class="oculto">
+                <div class="cabecalho-aba">
+                    <div>
+                        <h2>Log de Auditoria &amp; Integração Power BI</h2>
+                        <p class="sub">Histórico imutável de operações para rastreabilidade e alimentação do dashboard
+                            Power BI.</p>
+                    </div>
+                    <button class="btn" id="btnCSV">Exportar CSV para Power BI / Excel</button>
+                </div>
 
-        <div class="card tabela-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Data/Hora</th>
-                <th>Código</th>
-                <th>Nome</th>
-                <th>Cargo</th>
-                <th>Ação</th>
-                <th>SKU</th>
-                <th>Qtd.</th>
-                <th>Detalhe</th>
-              </tr>
-            </thead>
-            <tbody id="audCorpo"></tbody>
-          </table>
-        </div>
-      </section>
+                <div class="card tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data/Hora</th>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Cargo</th>
+                                <th>Ação</th>
+                                <th>SKU</th>
+                                <th>Qtd.</th>
+                                <th>Detalhe</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audCorpo"></tbody>
+                    </table>
+                </div>
+            </section>
 
-      <!-- ===============================================================
+            <!-- ===============================================================
            ABA 6: GESTÃO DE COLABORADORES
            =============================================================== -->
-      <section id="aba-usuarios" class="oculto">
-        <h2>Gestão de Colaboradores e Acessos</h2>
-        <p class="sub">Cadastre operadores, altere cargos/senhas ou desative acessos sem perder o histórico de auditoria.</p>
+            <section id="aba-usuarios" class="oculto">
+                <h2>Gestão de Colaboradores e Acessos</h2>
+                <p class="sub">Cadastre operadores, altere cargos/senhas ou desative acessos sem perder o histórico de
+                    auditoria.</p>
 
-        <form class="card form" id="formUsr" novalidate>
-          <h3>Novo Colaborador</h3>
-          <label>Nome completo <input id="uNome" placeholder="Ex.: João Silva"></label>
-          <div class="dupla">
-            <label>Cargo <select id="uCargo"></select></label>
-            <label>Unidade <select id="uUnidade"></select></label>
-          </div>
-          <label>Senha inicial <input id="uSenha" type="password" autocomplete="new-password" placeholder="Mínimo 3 caracteres"></label>
-          <button class="btn" type="submit">Cadastrar e Gerar Código Único</button>
-        </form>
+                <form class="card form" id="formUsr" novalidate>
+                    <h3>Novo Colaborador</h3>
+                    <label>Nome completo <input id="uNome" placeholder="Ex.: João Silva"></label>
+                    <div class="dupla">
+                        <label>Cargo <select id="uCargo"></select></label>
+                        <label>Unidade <select id="uUnidade"></select></label>
+                    </div>
+                    <label>Senha inicial <input id="uSenha" type="password" autocomplete="new-password"
+                            placeholder="Mínimo 3 caracteres"></label>
+                    <button class="btn" type="submit">Cadastrar e Gerar Código Único</button>
+                </form>
 
-        <h3>Equipe Cadastrada</h3>
-        <div class="card tabela-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Nome</th>
-                <th>Cargo</th>
-                <th>Unidade</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="usrCorpo"></tbody>
-          </table>
-        </div>
+                <h3>Equipe Cadastrada</h3>
+                <div class="card tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Cargo</th>
+                                <th>Unidade</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usrCorpo"></tbody>
+                    </table>
+                </div>
 
-        <h3>Manutenção da Base</h3>
-        <button class="btn sec" id="btnReset">Restaurar Produtos e Saldos Padrão</button>
-        <small>Preserva o histórico de auditoria e os usuários cadastrados.</small>
-      </section>
-    </main>
-  </div>
+                <h3>Manutenção da Base</h3>
+                <button class="btn sec" id="btnReset">Restaurar Produtos e Saldos Padrão</button>
+                <small>Preserva o histórico de auditoria e os usuários cadastrados.</small>
+            </section>
+        </main>
+    </div>
 
-  <div id="toast" role="status" aria-live="polite"></div>
-  <script src="script.js"></script>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
 </body>
 
 </html>
